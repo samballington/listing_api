@@ -1,0 +1,38 @@
+# Project planning/instructions — never commit
+CLAUDE.md
+BUILD_PLAN.md
+.claude/
+
+# .NET build output
+bin/
+obj/
+
+# NuGet packages
+*.nupkg
+.nuget/
+
+# User-specific Visual Studio files
+*.user
+*.suo
+.vs/
+
+# Rider
+.idea/
+
+# VS Code
+.vscode/
+
+# Log files
+logs/
+*.log
+
+# Environment / secrets
+appsettings.*.json
+!appsettings.json
+
+# EF Core
+# (migrations ARE committed)
+
+# OS
+.DS_Store
+Thumbs.db

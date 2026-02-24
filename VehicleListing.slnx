@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/VehicleListing/" />
+  <Folder Name="/VehicleListing/src/">
+    <Project Path="VehicleListing/src/VehicleListing.Api/VehicleListing.Api.csproj" />
+  </Folder>
+  <Folder Name="/VehicleListing/tests/">
+    <Project Path="VehicleListing/tests/VehicleListing.Tests/VehicleListing.Tests.csproj" />
+  </Folder>
+</Solution>
