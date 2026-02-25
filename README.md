@@ -6,7 +6,7 @@
 [![Docker](https://img.shields.io/badge/docker-ready-2496ed?logo=docker&logoColor=white)](https://www.docker.com)
 
 A RESTful vehicle inventory management API for car dealerships, built as a portfolio project demonstrating clean layered architecture, interface-driven design, and production-quality engineering practices.
-
+[**Check out the live demo**](http://3.235.181.210:8080)
 ## Tech Stack
 
 - **.NET 10** — backend runtime
