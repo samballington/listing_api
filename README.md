@@ -1,5 +1,10 @@
 # Vehicle Listing API
 
+[![Build and Test](https://github.com/samballington/listing_api/actions/workflows/ci.yml/badge.svg)](https://github.com/samballington/listing_api/actions/workflows/ci.yml)
+[![Tests](https://img.shields.io/badge/tests-9%20passing-brightgreen)](https://github.com/samballington/listing_api/actions/workflows/ci.yml)
+[![.NET](https://img.shields.io/badge/.NET-10.0-512bd4)](https://dotnet.microsoft.com)
+[![Docker](https://img.shields.io/badge/docker-ready-2496ed?logo=docker&logoColor=white)](https://www.docker.com)
+
 A RESTful vehicle inventory management API for car dealerships, built as a portfolio project demonstrating clean layered architecture, interface-driven design, and production-quality engineering practices.
 
 ## Tech Stack
@@ -27,7 +32,7 @@ Each layer communicates through interfaces. Controllers handle HTTP only. Servic
 Requires [Docker Desktop](https://www.docker.com/products/docker-desktop/).
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/samballington/listing_api.git
 cd listing_api/VehicleListing
 docker-compose up --build
 ```

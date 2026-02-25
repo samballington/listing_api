@@ -189,6 +189,89 @@
 
     .desc { color: #8b949e; }
 
+    /* Forms */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .form-group.full { grid-column: 1 / -1; }
+
+    label {
+      font-size: 12px;
+      color: #8b949e;
+      font-weight: 500;
+    }
+
+    input[type="number"],
+    textarea,
+    select {
+      background: #161b22;
+      color: #e6edf3;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-family: inherit;
+      outline: none;
+      width: 100%;
+    }
+
+    input[type="number"]:focus,
+    textarea:focus,
+    select:focus { border-color: #58a6ff; }
+
+    input[type="number"]::placeholder,
+    textarea::placeholder { color: #484f58; }
+
+    select option { background: #161b22; }
+
+    textarea { resize: vertical; min-height: 64px; }
+
+    .form-group input[type="text"] { width: 100%; }
+
+    .submit-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    button.btn-post   { border-color: #1f6feb; color: #79c0ff; }
+    button.btn-put    { border-color: #9e6a03; color: #e3b341; }
+    button.btn-delete { border-color: #6e2229; color: #f85149; }
+
+    button.btn-post:hover   { background: #1f3a5f; }
+    button.btn-put:hover    { background: #3d2b00; }
+    button.btn-delete:hover { background: #3d1218; }
+
+    .form-card {
+      background: #161b22;
+      border: 1px solid #21262d;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .form-card h3 {
+      font-size: 13px;
+      font-weight: 600;
+      color: #8b949e;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .result-block .success { color: #56d364; }
+
     /* Footer */
     footer {
       padding: 32px 0;
@@ -250,6 +333,135 @@
       </div>
       <div class="result-block" id="res-dealers">
         <span class="placeholder">Response will appear here</span>
+      </div>
+    </section>
+
+    <section>
+      <h2>Manage Inventory</h2>
+
+      <!-- Create Dealer -->
+      <div class="form-card">
+        <h3>POST /api/dealers — Create Dealer</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="d-name">Name</label>
+            <input type="text" id="d-name" placeholder="AutoNation Dallas" />
+          </div>
+          <div class="form-group">
+            <label for="d-location">Location</label>
+            <input type="text" id="d-location" placeholder="Dallas, TX" />
+          </div>
+        </div>
+        <div class="submit-row">
+          <button class="btn-post" onclick="createDealer()">Create Dealer</button>
+        </div>
+        <div class="result-block" id="res-create-dealer" style="margin-top:12px">
+          <span class="placeholder">Response will appear here</span>
+        </div>
+      </div>
+
+      <!-- Create Vehicle -->
+      <div class="form-card">
+        <h3>POST /api/vehicles — Create Vehicle</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="v-dealer">Dealer ID</label>
+            <input type="number" id="v-dealer" placeholder="1" min="1" />
+          </div>
+          <div class="form-group">
+            <label for="v-make">Make</label>
+            <input type="text" id="v-make" placeholder="Toyota" />
+          </div>
+          <div class="form-group">
+            <label for="v-model">Model</label>
+            <input type="text" id="v-model" placeholder="Camry" />
+          </div>
+          <div class="form-group">
+            <label for="v-year">Year</label>
+            <input type="number" id="v-year" placeholder="2022" min="1900" max="2027" />
+          </div>
+          <div class="form-group">
+            <label for="v-price">Price ($)</label>
+            <input type="number" id="v-price" placeholder="25000" min="0.01" step="0.01" />
+          </div>
+          <div class="form-group">
+            <label for="v-mileage">Mileage</label>
+            <input type="number" id="v-mileage" placeholder="0" min="0" />
+          </div>
+          <div class="form-group">
+            <label for="v-status">Status</label>
+            <select id="v-status">
+              <option value="Available">Available</option>
+              <option value="Pending">Pending</option>
+              <option value="Sold">Sold</option>
+            </select>
+          </div>
+          <div class="form-group full">
+            <label for="v-desc">Description (optional)</label>
+            <textarea id="v-desc" placeholder="One owner, clean title…"></textarea>
+          </div>
+        </div>
+        <div class="submit-row">
+          <button class="btn-post" onclick="createVehicle()">Create Vehicle</button>
+        </div>
+        <div class="result-block" id="res-create-vehicle" style="margin-top:12px">
+          <span class="placeholder">Response will appear here</span>
+        </div>
+      </div>
+
+      <!-- Update Vehicle -->
+      <div class="form-card">
+        <h3>PUT /api/vehicles/{id} — Update Vehicle</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="u-id">Vehicle ID</label>
+            <input type="number" id="u-id" placeholder="1" min="1" />
+          </div>
+          <div class="form-group">
+            <label for="u-price">Price ($) <span style="color:#484f58;font-weight:400">optional</span></label>
+            <input type="number" id="u-price" placeholder="leave blank to skip" min="0.01" step="0.01" />
+          </div>
+          <div class="form-group">
+            <label for="u-mileage">Mileage <span style="color:#484f58;font-weight:400">optional</span></label>
+            <input type="number" id="u-mileage" placeholder="leave blank to skip" min="0" />
+          </div>
+          <div class="form-group">
+            <label for="u-status">Status <span style="color:#484f58;font-weight:400">optional</span></label>
+            <select id="u-status">
+              <option value="">— no change —</option>
+              <option value="Available">Available</option>
+              <option value="Pending">Pending</option>
+              <option value="Sold">Sold</option>
+            </select>
+          </div>
+          <div class="form-group full">
+            <label for="u-desc">Description <span style="color:#484f58;font-weight:400">optional</span></label>
+            <textarea id="u-desc" placeholder="leave blank to skip"></textarea>
+          </div>
+        </div>
+        <div class="submit-row">
+          <button class="btn-put" onclick="updateVehicle()">Update Vehicle</button>
+        </div>
+        <div class="result-block" id="res-update-vehicle" style="margin-top:12px">
+          <span class="placeholder">Response will appear here</span>
+        </div>
+      </div>
+
+      <!-- Delete Vehicle -->
+      <div class="form-card">
+        <h3>DELETE /api/vehicles/{id} — Delete Vehicle</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="del-id">Vehicle ID</label>
+            <input type="number" id="del-id" placeholder="1" min="1" />
+          </div>
+        </div>
+        <div class="submit-row">
+          <button class="btn-delete" onclick="deleteVehicle()">Delete Vehicle</button>
+        </div>
+        <div class="result-block" id="res-delete-vehicle" style="margin-top:12px">
+          <span class="placeholder">Response will appear here</span>
+        </div>
       </div>
     </section>
 
@@ -342,6 +554,100 @@
     document.getElementById('search-query').addEventListener('keydown', function(e) {
       if (e.key === 'Enter') trySearch();
     });
+
+    function val(id) { return document.getElementById(id).value.trim(); }
+    function numVal(id) { const v = val(id); return v === '' ? null : Number(v); }
+
+    function showResult(id, status, body) {
+      const el = document.getElementById(id);
+      if (status === 204) {
+        el.innerHTML = '<pre class="success">204 No Content — deleted successfully</pre>';
+      } else if (status === 404) {
+        el.innerHTML = '<pre class="error">404 Not Found</pre>';
+      } else if (status === 400) {
+        el.innerHTML = '<pre class="error">400 Bad Request\n' + escapeHtml(typeof body === 'string' ? body : JSON.stringify(body, null, 2)) + '</pre>';
+      } else {
+        el.innerHTML = '<pre>' + escapeHtml(JSON.stringify(body, null, 2)) + '</pre>';
+      }
+    }
+
+    function escapeHtml(s) {
+      return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    async function postJson(url, payload, resultId) {
+      const el = document.getElementById(resultId);
+      el.innerHTML = '<span class="placeholder">Loading…</span>';
+      try {
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const text = await res.text();
+        const body = text ? JSON.parse(text) : null;
+        showResult(resultId, res.status, body);
+      } catch (err) {
+        document.getElementById(resultId).innerHTML = '<pre class="error">Error: ' + escapeHtml(err.message) + '</pre>';
+      }
+    }
+
+    async function createDealer() {
+      const payload = { name: val('d-name'), location: val('d-location') };
+      await postJson('/api/dealers', payload, 'res-create-dealer');
+    }
+
+    async function createVehicle() {
+      const payload = {
+        dealerId: numVal('v-dealer'),
+        make: val('v-make'),
+        model: val('v-model'),
+        year: numVal('v-year'),
+        price: numVal('v-price'),
+        mileage: numVal('v-mileage'),
+        status: val('v-status'),
+        description: val('v-desc') || null
+      };
+      await postJson('/api/vehicles', payload, 'res-create-vehicle');
+    }
+
+    async function updateVehicle() {
+      const id = numVal('u-id');
+      if (!id) { document.getElementById('res-update-vehicle').innerHTML = '<pre class="error">Vehicle ID is required</pre>'; return; }
+      const payload = {};
+      const price = numVal('u-price'); if (price !== null) payload.price = price;
+      const mileage = numVal('u-mileage'); if (mileage !== null) payload.mileage = mileage;
+      const status = val('u-status'); if (status) payload.status = status;
+      const desc = val('u-desc'); if (desc) payload.description = desc;
+
+      const el = document.getElementById('res-update-vehicle');
+      el.innerHTML = '<span class="placeholder">Loading…</span>';
+      try {
+        const res = await fetch('/api/vehicles/' + id, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const text = await res.text();
+        const body = text ? JSON.parse(text) : null;
+        showResult('res-update-vehicle', res.status, body);
+      } catch (err) {
+        el.innerHTML = '<pre class="error">Error: ' + escapeHtml(err.message) + '</pre>';
+      }
+    }
+
+    async function deleteVehicle() {
+      const id = numVal('del-id');
+      if (!id) { document.getElementById('res-delete-vehicle').innerHTML = '<pre class="error">Vehicle ID is required</pre>'; return; }
+      const el = document.getElementById('res-delete-vehicle');
+      el.innerHTML = '<span class="placeholder">Loading…</span>';
+      try {
+        const res = await fetch('/api/vehicles/' + id, { method: 'DELETE' });
+        showResult('res-delete-vehicle', res.status, null);
+      } catch (err) {
+        el.innerHTML = '<pre class="error">Error: ' + escapeHtml(err.message) + '</pre>';
+      }
+    }
   </script>
 </body>
 </html>
