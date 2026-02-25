@@ -18,6 +18,7 @@ A RESTful vehicle inventory management API for car dealerships, built as a portf
 - **XUnit + Moq** — unit testing
 - **Docker + docker-compose** — containerization
 - **GitHub Actions** — CI pipeline
+- **AWS EC2** - Hosting
 
 ## Architecture
 
