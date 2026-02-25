@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vehicle Listing API</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0d1117;
+      color: #e6edf3;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Header */
+    header {
+      border-bottom: 1px solid #21262d;
+      padding: 48px 0 36px;
+    }
+
+    header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      color: #f0f6fc;
+      letter-spacing: -0.3px;
+    }
+
+    header p {
+      margin-top: 6px;
+      color: #8b949e;
+      font-size: 15px;
+    }
+
+    /* Badges */
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+    }
+
+    .badge-blue   { background: #1f3a5f; color: #79c0ff; border: 1px solid #1f6feb; }
+    .badge-orange { background: #3d1f00; color: #ffa657; border: 1px solid #9e4c00; }
+    .badge-green  { background: #1a3228; color: #56d364; border: 1px solid #196c2e; }
+    .badge-purple { background: #2d1f4e; color: #d2a8ff; border: 1px solid #6e40c9; }
+    .badge-gray   { background: #1c2128; color: #8b949e; border: 1px solid #30363d; }
+
+    /* Sections */
+    section {
+      padding: 40px 0;
+      border-bottom: 1px solid #21262d;
+    }
+
+    section:last-of-type { border-bottom: none; }
+
+    h2 {
+      font-size: 17px;
+      font-weight: 600;
+      color: #f0f6fc;
+      margin-bottom: 20px;
+    }
+
+    /* Try It */
+    .try-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .try-label {
+      color: #8b949e;
+      font-size: 13px;
+      min-width: 120px;
+    }
+
+    button {
+      background: #21262d;
+      color: #e6edf3;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 6px 14px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+      white-space: nowrap;
+    }
+
+    button:hover { background: #30363d; border-color: #8b949e; }
+    button:active { background: #161b22; }
+
+    input[type="text"] {
+      background: #161b22;
+      color: #e6edf3;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 13px;
+      width: 180px;
+      outline: none;
+    }
+
+    input[type="text"]:focus { border-color: #58a6ff; }
+    input[type="text"]::placeholder { color: #484f58; }
+
+    .result-block {
+      margin-top: 10px;
+      background: #161b22;
+      border: 1px solid #21262d;
+      border-radius: 8px;
+      padding: 16px;
+      min-height: 48px;
+    }
+
+    .result-block pre {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 12px;
+      color: #79c0ff;
+      white-space: pre-wrap;
+      word-break: break-all;
+      line-height: 1.5;
+    }
+
+    .result-block .placeholder {
+      color: #484f58;
+      font-size: 13px;
+    }
+
+    .result-block .error { color: #f85149; }
+
+    /* Endpoints table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    thead th {
+      text-align: left;
+      color: #8b949e;
+      font-weight: 600;
+      padding: 8px 12px;
+      border-bottom: 1px solid #21262d;
+    }
+
+    tbody tr:hover { background: #161b22; }
+
+    tbody td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #161b22;
+      vertical-align: top;
+    }
+
+    .method {
+      font-family: "SFMono-Regular", Consolas, monospace;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .method-get    { background: #1a3228; color: #56d364; }
+    .method-post   { background: #1f3a5f; color: #79c0ff; }
+    .method-put    { background: #3d2b00; color: #e3b341; }
+    .method-delete { background: #3d1218; color: #f85149; }
+
+    .route {
+      font-family: "SFMono-Regular", Consolas, monospace;
+      color: #e6edf3;
+    }
+
+    .desc { color: #8b949e; }
+
+    /* Footer */
+    footer {
+      padding: 32px 0;
+      color: #484f58;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    footer a {
+      color: #58a6ff;
+      text-decoration: none;
+    }
+
+    footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <header>
+      <h1>Vehicle Listing API</h1>
+      <p>Automotive inventory management REST API</p>
+      <div class="badges">
+        <span class="badge badge-blue">.NET 10</span>
+        <span class="badge badge-orange">SQL Server</span>
+        <span class="badge badge-green">Entity Framework Core</span>
+        <span class="badge badge-purple">XUnit + Moq</span>
+        <span class="badge badge-gray">Docker</span>
+        <span class="badge badge-gray">FluentValidation</span>
+        <span class="badge badge-gray">Serilog</span>
+      </div>
+    </header>
+
+    <section>
+      <h2>Try It</h2>
+
+      <div class="try-row">
+        <span class="try-label">GET /api/vehicles</span>
+        <button onclick="tryIt('/api/vehicles', 'res-vehicles')">List All Vehicles</button>
+      </div>
+      <div class="result-block" id="res-vehicles">
+        <span class="placeholder">Response will appear here</span>
+      </div>
+
+      <div class="try-row" style="margin-top:20px">
+        <span class="try-label">GET /api/vehicles/search</span>
+        <input type="text" id="search-query" placeholder="Toyota, Camry…" />
+        <button onclick="trySearch()">Search</button>
+      </div>
+      <div class="result-block" id="res-search">
+        <span class="placeholder">Response will appear here</span>
+      </div>
+
+      <div class="try-row" style="margin-top:20px">
+        <span class="try-label">GET /api/dealers</span>
+        <button onclick="tryIt('/api/dealers', 'res-dealers')">List Dealers</button>
+      </div>
+      <div class="result-block" id="res-dealers">
+        <span class="placeholder">Response will appear here</span>
+      </div>
+    </section>
+
+    <section>
+      <h2>Endpoints</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>Route</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="method method-get">GET</span></td>
+            <td class="route">/api/vehicles</td>
+            <td class="desc">List vehicles — supports filtering by make, model, year, price, status</td>
+          </tr>
+          <tr>
+            <td><span class="method method-get">GET</span></td>
+            <td class="route">/api/vehicles/{id}</td>
+            <td class="desc">Get vehicle by ID</td>
+          </tr>
+          <tr>
+            <td><span class="method method-post">POST</span></td>
+            <td class="route">/api/vehicles</td>
+            <td class="desc">Create a vehicle</td>
+          </tr>
+          <tr>
+            <td><span class="method method-put">PUT</span></td>
+            <td class="route">/api/vehicles/{id}</td>
+            <td class="desc">Update a vehicle</td>
+          </tr>
+          <tr>
+            <td><span class="method method-delete">DELETE</span></td>
+            <td class="route">/api/vehicles/{id}</td>
+            <td class="desc">Delete a vehicle — returns 204</td>
+          </tr>
+          <tr>
+            <td><span class="method method-get">GET</span></td>
+            <td class="route">/api/vehicles/search?query=</td>
+            <td class="desc">Full-text search across make, model, description</td>
+          </tr>
+          <tr>
+            <td><span class="method method-get">GET</span></td>
+            <td class="route">/api/dealers</td>
+            <td class="desc">List all dealers</td>
+          </tr>
+          <tr>
+            <td><span class="method method-get">GET</span></td>
+            <td class="route">/api/dealers/{id}</td>
+            <td class="desc">Get dealer by ID — includes their vehicles</td>
+          </tr>
+          <tr>
+            <td><span class="method method-post">POST</span></td>
+            <td class="route">/api/dealers</td>
+            <td class="desc">Create a dealer</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <footer>
+      <span>Vehicle Listing API</span>
+      <a href="https://github.com/samballington/listing_api" target="_blank" rel="noopener">GitHub →</a>
+    </footer>
+
+  </div>
+
+  <script>
+    async function tryIt(url, targetId) {
+      const el = document.getElementById(targetId);
+      el.innerHTML = '<span class="placeholder">Loading…</span>';
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        el.innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+      } catch (err) {
+        el.innerHTML = '<pre class="error">Error: ' + err.message + '</pre>';
+      }
+    }
+
+    async function trySearch() {
+      const query = document.getElementById('search-query').value.trim();
+      const url = '/api/vehicles/search?query=' + encodeURIComponent(query);
+      await tryIt(url, 'res-search');
+    }
+
+    document.getElementById('search-query').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') trySearch();
+    });
+  </script>
+</body>
+</html>
